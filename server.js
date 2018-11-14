@@ -13,52 +13,59 @@ hbs.registerHelper('getUpperCase', (text) => text.toUpperCase());
 
 // use middleware
 app.use((req, res, next) => {
-	const now = new Date().toString();
-	const log = `${now}: ${req.method} ${req.url}`
-	console.log(log);
-	fs.appendFile('server.log', log + '\n', err => {
-		if (err) {
-			console.log('Unable to append to log.server');
-		}
-	});
-	next(); // required for continuing render page
+    const now = new Date().toString();
+    const log = `${now}: ${req.method} ${req.url}`
+    console.log(log);
+    fs.appendFile('server.log', log + '\n', err => {
+        if (err) {
+            console.log('Unable to append to log.server');
+        }
+    });
+    next(); // required for continuing render page
 })
-app.use((req, res, next) => {
-	res.render('maintanence.hbs', {
-		pageTitle: 'We will be right back',
-		message: 'The site is under maintanence...'
-	});
-})
+// app.use((req, res, next) => {
+//     res.render('maintanence.hbs', {
+//         pageTitle: 'We will be right back',
+//         message: 'The site is under maintanence...'
+//     });
+// })
 
 // use an built-in express middleware
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-	// res.send('<h1>Hello Express!</h1>');
-	// res.send({
-	// 	name: 'Jay',
-	// 	like: [
-	// 		'basketball',
-	// 		'computer'
-	// 	]
-	// })
-	res.render('home.hbs', {
-		pageTitle: 'Home Page',
-		message: 'Welcome!'
-	})
+    // res.send('<h1>Hello Express!</h1>');
+    // res.send({
+    // 	name: 'Jay',
+    // 	like: [
+    // 		'basketball',
+    // 		'computer'
+    // 	]
+    // })
+    res.render('home.hbs', {
+        pageTitle: 'Home Page',
+        message: 'Welcome!'
+    })
 });
 
 app.get('/about', (req, res) => {
-	// res.send('About Page');
-	res.render('about.hbs', {
-		pageTitle: 'About Page',
-	});
+    // res.send('About Page');
+    res.render('about.hbs', {
+        pageTitle: 'About Page',
+    });
 });
 
 app.get('/bad', (req, res) => {
-	res.send({
-		errorMessage: 'Unable to handle request'
-	});
+    res.send({
+        errorMessage: 'Unable to handle request'
+    });
+});
+
+app.get('/projects', (req, res) => {
+    res.render('projects.hbs', {
+        pageTitle: 'Protofolio',
+        message: 'Jen-Chieh\'s protofolio'
+    });
 });
 
 app.listen(port, () => console.log(`Server is up on port ${port}`));
